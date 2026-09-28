@@ -1,22 +1,20 @@
 # Dependencies
 node_modules/
-/.pnp
+.pnp/
 .pnp.js
 .yarn/install-state.gz
 
-# Next.js build output
+# Next.js
 .next/
 out/
+
+# Build
 build/
 dist/
 
 # Environment Variables
 .env
 .env*.local
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 !.env.example
 
 # TypeScript
@@ -26,20 +24,20 @@ next-env.d.ts
 # Vercel
 .vercel/
 
-# Debug logs
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+*.log
 
 # OS Files
 .DS_Store
 Thumbs.db
 *.exe
-*.log
 
-# IDE & Editor files
+# IDE / Editor
 .idea/
 .vscode/
 *.suo
