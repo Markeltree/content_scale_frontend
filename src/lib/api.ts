@@ -3,7 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import { supabase } from "./supabase";
 
-export const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000").replace(/\/$/, "");
+export const API_URL = (process.env.NEXT_PUBLIC_API_URL || "https://content-scale-backend.vercel.app").replace(/\/$/, "");
 
 async function authHeader(): Promise<Record<string, string>> {
   const { data } = await supabase.auth.getSession();
