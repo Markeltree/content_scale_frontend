@@ -111,7 +111,7 @@ export default function GeneratePage() {
       <div className="grid gap-6 xl:grid-cols-[420px_1fr]">
         <Card className="h-fit">
           <CardHeader>
-            <CardTitle className="text-base">Content brief</CardTitle>
+            <CardTitle>Content brief</CardTitle>
           </CardHeader>
           <CardContent className="space-y-5">
             <Field label="Content type">
@@ -123,7 +123,7 @@ export default function GeneratePage() {
                     onClick={() => set("type", t.id)}
                     className={cn(
                       "flex flex-col items-center gap-1.5 rounded-lg border px-1 py-2.5 text-[11px] font-medium transition-colors cursor-pointer",
-                      form.type === t.id ? "border-primary bg-primary/5 text-primary" : "text-muted-foreground hover:border-foreground/20 hover:text-foreground"
+                      form.type === t.id ? "border-primary/60 bg-primary/5 ring-1 ring-primary/15 text-primary" : "text-muted-foreground hover:border-foreground/20 hover:text-foreground"
                     )}
                   >
                     <t.icon className="size-4" />
@@ -204,7 +204,7 @@ export default function GeneratePage() {
                     key={l}
                     type="button"
                     onClick={() => set("length", l)}
-                    className={cn("rounded-md py-1.5 text-sm capitalize transition-colors cursor-pointer", form.length === l ? "bg-background font-medium shadow-sm" : "text-muted-foreground")}
+                    className={cn("rounded-md py-1.5 text-sm capitalize transition-colors cursor-pointer", form.length === l ? "bg-card font-medium text-foreground shadow-xs ring-1 ring-border" : "text-muted-foreground")}
                   >
                     {l}
                   </button>
@@ -289,7 +289,7 @@ export default function GeneratePage() {
               />
             )}
             {s.streaming && !s.text && <GeneratingDots label={form.useKnowledge ? "Searching the knowledge base and drafting…" : "Drafting…"} />}
-            {s.text && <Markdown streaming={s.streaming}>{s.text}</Markdown>}
+            {s.text && <Markdown streaming={s.streaming} className="mx-auto max-w-3xl">{s.text}</Markdown>}
           </div>
 
           {(sources.length > 0 || s.done) && (

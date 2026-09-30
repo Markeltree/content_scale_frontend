@@ -278,7 +278,7 @@ export function ContentDetail({ id, onClose, onChanged }: { id: string | null; o
                 {review && (
                   <div className="space-y-5">
                     <div className="flex items-center gap-4 rounded-xl border p-4">
-                      <div className="text-3xl font-bold tabular-nums">{review.score}</div>
+                      <div className="text-3xl font-semibold tracking-[-0.03em] tabular-nums">{review.score}</div>
                       <div className="flex-1">
                         <div className="text-sm font-medium capitalize">{review.verdict.replace("_", " ")}</div>
                         <Progress value={review.score} className="mt-2" indicatorClassName={review.score >= 80 ? "bg-emerald-500" : review.score >= 60 ? "bg-amber-500" : "bg-rose-500"} />

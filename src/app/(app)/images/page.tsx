@@ -126,12 +126,12 @@ export default function ImagesPage() {
       <div className="grid gap-6 xl:grid-cols-[400px_1fr]">
         <Card className="h-fit">
           <CardHeader>
-            <CardTitle className="text-base">Creative brief</CardTitle>
+            <CardTitle>Creative brief</CardTitle>
           </CardHeader>
           <CardContent className="space-y-5">
             <Field label="Engine">
               <div className="grid grid-cols-2 gap-2">
-                <div className="rounded-lg border border-primary bg-primary/5 p-2.5 text-xs">
+                <div className="rounded-lg border border-primary/60 bg-primary/5 ring-1 ring-primary/15 p-2.5 text-xs">
                   <div className="font-semibold text-primary">Vector · Claude</div>
                   <div className="text-muted-foreground">Editable SVG creatives</div>
                 </div>
@@ -159,7 +159,7 @@ export default function ImagesPage() {
                     onClick={() => set("category", c.id)}
                     className={cn(
                       "flex flex-col items-center gap-1.5 rounded-lg border px-1 py-2.5 text-[11px] font-medium transition-colors cursor-pointer",
-                      form.category === c.id ? "border-primary bg-primary/5 text-primary" : "text-muted-foreground hover:text-foreground"
+                      form.category === c.id ? "border-primary/60 bg-primary/5 ring-1 ring-primary/15 text-primary" : "text-muted-foreground hover:text-foreground"
                     )}
                   >
                     <c.icon className="size-4" />
@@ -206,7 +206,7 @@ export default function ImagesPage() {
                   <button
                     key={r}
                     onClick={() => set("aspectRatio", r)}
-                    className={cn("flex-1 rounded-md py-1.5 text-xs transition-colors cursor-pointer", form.aspectRatio === r ? "bg-background font-medium shadow-sm" : "text-muted-foreground")}
+                    className={cn("flex-1 rounded-md py-1.5 text-xs transition-colors cursor-pointer", form.aspectRatio === r ? "bg-card font-medium text-foreground shadow-xs ring-1 ring-border" : "text-muted-foreground")}
                   >
                     {r}
                   </button>

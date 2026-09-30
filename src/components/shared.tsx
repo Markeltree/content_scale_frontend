@@ -24,19 +24,19 @@ export function PageHeader({
   actions?: React.ReactNode;
 }) {
   return (
-    <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-      <div className="flex items-start gap-3">
+    <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex min-w-0 items-center gap-3.5">
         {Icon && (
-          <div className="grid size-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-            <Icon className="size-5" />
+          <div className="grid size-10 shrink-0 place-items-center rounded-xl border bg-card text-primary shadow-xs">
+            <Icon className="size-[18px]" strokeWidth={2} />
           </div>
         )}
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-          {description && <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{description}</p>}
+        <div className="min-w-0">
+          <h1 className="text-xl leading-tight font-semibold tracking-[-0.02em] sm:text-[22px]">{title}</h1>
+          {description && <p className="mt-1 max-w-2xl text-[13px] leading-relaxed text-muted-foreground sm:text-sm">{description}</p>}
         </div>
       </div>
-      {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
+      {actions && <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div>}
     </div>
   );
 }
@@ -58,25 +58,28 @@ export function StatCard({
 }) {
   const up = (change ?? 0) >= 0;
   return (
-    <Card className={cn("gap-3 p-5", className)}>
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-muted-foreground">{label}</span>
-        {Icon && (
-          <div className="grid size-8 place-items-center rounded-lg bg-primary/10 text-primary">
-            <Icon className="size-4" />
-          </div>
-        )}
+    <Card className={cn("gap-0 p-5", className)}>
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-[13px] font-medium text-muted-foreground">{label}</span>
+        {Icon && <Icon className="size-4 text-muted-foreground/70" />}
       </div>
-      <div className="text-2xl font-bold tracking-tight tabular-nums">{value}</div>
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+      <div className="mt-3 text-[28px] leading-none font-semibold tracking-[-0.025em] tabular-nums">{value}</div>
+      <div className="mt-3 flex min-h-5 items-center gap-2 text-xs text-muted-foreground">
         {change !== undefined && (
-          <span className={cn("inline-flex items-center gap-0.5 font-medium", up ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600")}>
+          <span
+            className={cn(
+              "inline-flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[11px] font-medium tabular-nums",
+              up
+                ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"
+                : "bg-rose-50 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400"
+            )}
+          >
             {up ? <TrendingUp className="size-3" /> : <TrendingDown className="size-3" />}
             {up ? "+" : ""}
             {change}%
           </span>
         )}
-        {hint}
+        <span className="truncate">{hint}</span>
       </div>
     </Card>
   );
@@ -96,12 +99,12 @@ export function EmptyState({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-col items-center justify-center rounded-xl border border-dashed px-6 py-14 text-center", className)}>
-      <div className="grid size-12 place-items-center rounded-full bg-primary/10 text-primary">
+    <div className={cn("flex flex-col items-center justify-center rounded-xl border border-dashed bg-muted/20 px-6 py-14 text-center", className)}>
+      <div className="grid size-11 place-items-center rounded-xl border bg-card text-muted-foreground shadow-xs">
         <Icon className="size-5" />
       </div>
-      <h3 className="mt-4 font-semibold">{title}</h3>
-      {description && <p className="mt-1 max-w-sm text-sm text-muted-foreground">{description}</p>}
+      <h3 className="mt-4 text-[15px] font-semibold">{title}</h3>
+      {description && <p className="mt-1.5 max-w-sm text-[13px] leading-relaxed text-muted-foreground">{description}</p>}
       {action && <div className="mt-5">{action}</div>}
     </div>
   );
@@ -110,7 +113,7 @@ export function EmptyState({
 export function StatusBadge({ status, className }: { status: string; className?: string }) {
   const m = STATUS_META[status] ?? STATUS_META.draft;
   return (
-    <span className={cn("inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium", m.className, className)}>
+    <span className={cn("inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5 text-[11px] leading-4 font-medium whitespace-nowrap", m.className, className)}>
       <span className={cn("size-1.5 rounded-full", m.dot)} />
       {m.label}
     </span>
@@ -130,7 +133,7 @@ export function Markdown({ children, className, streaming }: { children: string;
   return (
     <div
       className={cn(
-        "prose prose-sm max-w-none dark:prose-invert prose-headings:font-semibold prose-headings:tracking-tight prose-h1:text-2xl prose-a:text-primary prose-strong:text-foreground prose-table:text-sm prose-th:text-left",
+        "prose prose-sm max-w-none dark:prose-invert prose-zinc prose-headings:font-semibold prose-headings:tracking-[-0.015em] prose-p:leading-relaxed prose-li:my-0.5 prose-code:rounded prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-code:before:content-none prose-code:after:content-none prose-pre:border prose-pre:bg-muted prose-pre:text-foreground prose-blockquote:border-l-primary/40 prose-blockquote:font-normal prose-blockquote:not-italic prose-h1:text-2xl prose-a:text-primary prose-strong:text-foreground prose-table:text-sm prose-th:text-left",
         streaming && "[&>*:last-child]:stream-caret",
         className
       )}
@@ -225,7 +228,7 @@ export function Field({ label, hint, children, className }: { label: string; hin
   return (
     <div className={cn("space-y-1.5", className)}>
       <div className="flex items-baseline justify-between gap-2">
-        <label className="text-sm font-medium">{label}</label>
+        <label className="text-[13px] font-medium">{label}</label>
         {hint && <span className="text-xs text-muted-foreground">{hint}</span>}
       </div>
       {children}

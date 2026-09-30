@@ -4,13 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { LogOut, Menu, Moon, Settings, Sun, ShieldCheck } from "lucide-react";
+import { ChevronRight, LogOut, Menu, Moon, Settings, Sun, ShieldCheck, Sparkles } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { initials } from "@/lib/utils";
 import { AppSidebar, findNav } from "@/components/app-sidebar";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,8 +31,8 @@ export function Topbar() {
   const current = findNav(pathname);
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b bg-background/85 px-4 backdrop-blur md:px-6">
-      <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
+    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur-md supports-backdrop-filter:bg-background/70 md:px-6">
+      <Button variant="ghost" size="icon-sm" className="-ml-1 lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
         <Menu />
       </Button>
       <Sheet open={open} onOpenChange={setOpen}>
@@ -41,38 +42,56 @@ export function Topbar() {
         </SheetContent>
       </Sheet>
 
-      <div className="min-w-0 flex-1">
-        <div className="truncate text-sm text-muted-foreground">
-          Workspace <span className="mx-1">/</span>
-          <span className="font-medium text-foreground">{current?.label ?? "ContentScale"}</span>
-        </div>
-      </div>
+      <nav aria-label="Breadcrumb" className="flex min-w-0 flex-1 items-center gap-1.5 text-[13px]">
+        <span className="hidden text-muted-foreground sm:inline">{current?.group ?? "Workspace"}</span>
+        <ChevronRight className="hidden size-3.5 text-muted-foreground/60 sm:block" />
+        <span className="truncate font-medium text-foreground">{current?.label ?? "ContentScale"}</span>
+      </nav>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        aria-label="Toggle theme"
-        onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-      >
-        {resolvedTheme === "dark" ? <Sun /> : <Moon />}
+      <Button asChild size="sm" className="hidden sm:inline-flex">
+        <Link href="/generate">
+          <Sparkles /> Create
+        </Link>
       </Button>
+
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            aria-label="Toggle theme"
+            className="text-muted-foreground"
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+          >
+            {resolvedTheme === "dark" ? <Sun /> : <Moon />}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>{resolvedTheme === "dark" ? "Light mode" : "Dark mode"}</TooltipContent>
+      </Tooltip>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="flex items-center gap-2 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer">
-            <Avatar className="size-9">
+          <button
+            className="ml-1 flex cursor-pointer items-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            aria-label="Account menu"
+          >
+            <Avatar className="size-8 ring-1 ring-border">
               {user?.avatar_url && <AvatarImage src={user.avatar_url} alt="" />}
-              <AvatarFallback>{initials(user?.full_name || user?.email)}</AvatarFallback>
+              <AvatarFallback className="text-[11px] font-medium">{initials(user?.full_name || user?.email)}</AvatarFallback>
             </Avatar>
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-60">
+        <DropdownMenuContent align="end" className="w-64">
           <DropdownMenuLabel className="font-normal">
-            <div className="text-sm font-medium">{user?.full_name || "User"}</div>
-            <div className="truncate text-xs text-muted-foreground">{user?.email}</div>
-            <Badge variant="soft" className="mt-2 capitalize">
-              {user?.role}
-            </Badge>
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0">
+                <div className="truncate text-sm font-medium">{user?.full_name || "User"}</div>
+                <div className="truncate text-xs text-muted-foreground">{user?.email}</div>
+              </div>
+              <Badge variant="soft" className="capitalize">
+                {user?.role}
+              </Badge>
+            </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>

@@ -11,6 +11,7 @@ import {
   BookOpen,
   Braces,
   Zap,
+  SquareKanban,
   Type,
   Eye,
   LayoutDashboard,
@@ -47,35 +48,35 @@ export default function DashboardPage() {
   const t = data?.totals;
   const statusTotal = data?.byStatus.reduce((a, s) => a + s.value, 0) ?? 0;
 
+  const today = new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+
   return (
-    <div className="space-y-6">
-      <div className="relative overflow-hidden rounded-2xl border bg-zinc-950 p-6 text-white md:p-8">
-        <div className="absolute inset-0 bg-grid opacity-[0.06]" />
-        <div className="absolute -top-24 right-0 size-80 rounded-full bg-primary/40 blur-[100px]" />
-        <div className="relative flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-sm text-white/60">{greeting()},</p>
-            <h1 className="mt-1 text-3xl font-bold tracking-tight">{user?.full_name?.split(" ")[0] || "there"} 👋</h1>
-            <p className="mt-2 max-w-lg text-sm text-white/65">
-              Here&apos;s what your team produced with ContentScale in the last 30 days.
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button asChild className="bg-white text-zinc-900 hover:bg-white/90">
-              <Link href="/generate">
-                <Sparkles /> New content
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white">
-              <Link href="/workflow">Open board</Link>
-            </Button>
-          </div>
+    <div className="space-y-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-[13px] font-medium text-muted-foreground">{today}</p>
+          <h1 className="mt-1 text-2xl font-semibold tracking-[-0.025em] sm:text-[28px]">
+            {greeting()}, {user?.full_name?.split(" ")[0] || "there"}
+          </h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">Here&apos;s what your team produced with ContentScale in the last 30 days.</p>
+        </div>
+        <div className="flex gap-2">
+          <Button asChild variant="outline">
+            <Link href="/workflow">
+              <SquareKanban /> Open board
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link href="/generate">
+              <Sparkles /> New content
+            </Link>
+          </Button>
         </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {loading || !t ? (
-          Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-[126px] rounded-xl" />)
+          Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-[122px] rounded-xl" />)
         ) : (
           <>
             <StatCard label="AI generations" value={formatNumber(t.generations)} change={t.generationsChange} icon={Zap} hint="vs previous 30 days" />
@@ -111,18 +112,25 @@ export default function DashboardPage() {
       </div>
 
       <div>
-        <h2 className="mb-3 text-sm font-semibold text-muted-foreground">Quick actions</h2>
+        <div className="mb-3 flex items-baseline justify-between">
+          <h2 className="text-[15px] font-semibold">Quick actions</h2>
+          <span className="text-xs text-muted-foreground">Jump straight into a workflow</span>
+        </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {QUICK.map((q) => (
-            <Link key={q.href} href={q.href} className="group flex items-center gap-4 rounded-xl border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm">
-              <div className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                <q.icon className="size-5" />
+            <Link
+              key={q.href}
+              href={q.href}
+              className="group flex items-center gap-3.5 rounded-xl border bg-card p-4 shadow-xs transition-all outline-none hover:border-foreground/15 hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <div className="grid size-9 shrink-0 place-items-center rounded-lg border bg-muted/50 text-foreground/80 transition-colors group-hover:border-primary/25 group-hover:bg-primary/8 group-hover:text-primary">
+                <q.icon className="size-[18px]" />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-sm font-semibold">{q.title}</div>
+                <div className="text-[13px] font-semibold">{q.title}</div>
                 <div className="truncate text-xs text-muted-foreground">{q.text}</div>
               </div>
-              <ArrowUpRight className="size-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              <ArrowUpRight className="size-4 text-muted-foreground/60 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground" />
             </Link>
           ))}
         </div>
@@ -156,12 +164,12 @@ export default function DashboardPage() {
                 }
               />
             ) : (
-              <ul className="divide-y">
+              <ul className="divide-y divide-border/60">
                 {recent.items.slice(0, 6).map((c) => (
                   <li key={c.id}>
-                    <Link href={`/library?open=${c.id}`} className="flex items-center gap-3 py-3 hover:opacity-80">
+                    <Link href={`/library?open=${c.id}`} className="-mx-2 flex items-center gap-3 rounded-lg px-2 py-2.5 transition-colors hover:bg-muted/60">
                       <div className="min-w-0 flex-1">
-                        <div className="truncate text-sm font-medium">{c.title}</div>
+                        <div className="truncate text-[13px] font-medium">{c.title}</div>
                         <div className="mt-0.5 text-xs text-muted-foreground">
                           {CONTENT_TYPE_LABELS[c.type] ?? c.type} · {c.word_count.toLocaleString()} words · {timeAgo(c.updated_at)}
                         </div>
@@ -182,14 +190,14 @@ export default function DashboardPage() {
               <CardDescription>{statusTotal} items across all stages</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="flex h-2.5 gap-0.5 overflow-hidden rounded-full bg-muted">
+              <div className="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted">
                 {data?.byStatus
                   .filter((s) => s.value)
                   .map((s) => (
                     <div key={s.name} className={STATUS_META[s.name].dot} style={{ width: `${(s.value / Math.max(1, statusTotal)) * 100}%` }} title={`${STATUS_META[s.name].label}: ${s.value}`} />
                   ))}
               </div>
-              <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+              <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-[13px]">
                 {data?.byStatus.map((s) => (
                   <li key={s.name} className="flex items-center gap-2">
                     <span className={`size-2 rounded-full ${STATUS_META[s.name].dot}`} />
@@ -208,9 +216,9 @@ export default function DashboardPage() {
               {!data?.activity.length ? (
                 <p className="text-sm text-muted-foreground">No activity yet.</p>
               ) : (
-                <ul className="space-y-4">
+                <ul className="space-y-3.5">
                   {data.activity.slice(0, 6).map((a) => (
-                    <li key={a.id} className="flex gap-3 text-sm">
+                    <li key={a.id} className="flex gap-3 text-[13px]">
                       <UserAvatar name={a.actor?.full_name} src={a.actor?.avatar_url} />
                       <div className="min-w-0">
                         <p className="leading-snug">

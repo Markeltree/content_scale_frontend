@@ -29,14 +29,14 @@ function BoardCard({ item, onOpen, onDragStart }: { item: ContentItem; onOpen: (
       draggable
       onDragStart={onDragStart}
       onClick={onOpen}
-      className="group cursor-grab rounded-xl border bg-card p-3.5 shadow-xs transition-all hover:border-primary/40 hover:shadow-md active:cursor-grabbing"
+      className="group cursor-grab rounded-lg border bg-card p-3 shadow-xs transition-all hover:border-foreground/15 hover:shadow-md active:cursor-grabbing"
     >
       <div className="flex items-center gap-2">
         <span className="rounded-md bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">{CONTENT_TYPE_LABELS[item.type] ?? item.type}</span>
         {item.flagged && <Flag className="size-3 text-destructive" />}
         <span className={cn("ml-auto size-2 rounded-full", PRIORITY_DOT[item.priority])} title={`${item.priority} priority`} />
       </div>
-      <div className="mt-2 line-clamp-2 text-sm leading-snug font-medium">{item.title}</div>
+      <div className="mt-2 line-clamp-2 text-[13px] leading-snug font-medium">{item.title}</div>
       <div className="mt-3 flex items-center gap-3 text-[11px] text-muted-foreground">
         {item.due_date && (
           <span className={cn("flex items-center gap-1", overdue && "font-medium text-rose-600")}>
@@ -139,7 +139,7 @@ export default function WorkflowPage() {
             ))}
           </SelectContent>
         </Select>
-        <label className="flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm">
+        <label className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-input bg-card px-3 text-[13px] font-medium shadow-xs">
           <Switch checked={mine} onCheckedChange={setMine} /> My items
         </label>
         {user?.role !== "admin" && (
@@ -156,7 +156,7 @@ export default function WorkflowPage() {
           ))}
         </div>
       ) : (
-        <div className="-mx-4 overflow-x-auto px-4 pb-4 md:-mx-8 md:px-8">
+        <div className="-mx-4 overflow-x-auto px-4 pb-4 sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10">
           <div className="grid min-w-[1080px] grid-cols-6 gap-2.5">
             {STATUSES.map((status) => {
               const col = filtered.filter((i) => i.status === status);
@@ -176,18 +176,18 @@ export default function WorkflowPage() {
                     const id = e.dataTransfer.getData("text/plain");
                     if (id) move(id, status);
                   }}
-                  className={cn("flex min-h-[560px] flex-col rounded-2xl border bg-muted/40 p-2.5 transition-colors", dragOver === status && "border-primary/50 bg-primary/5")}
+                  className={cn("flex min-h-[560px] flex-col rounded-xl border bg-muted/30 p-2 transition-colors", dragOver === status && "border-primary/50 bg-primary/5")}
                 >
                   <div className="flex items-center gap-2 px-1.5 pt-1 pb-3">
                     <span className={cn("size-2 rounded-full", meta.dot)} />
-                    <span className="text-sm font-semibold">{meta.label}</span>
-                    <span className="ml-auto rounded-full bg-background px-2 py-0.5 text-xs text-muted-foreground tabular-nums">{col.length}</span>
+                    <span className="text-[13px] font-semibold">{meta.label}</span>
+                    <span className="ml-auto rounded-md bg-card px-1.5 py-0.5 text-[11px] font-medium text-muted-foreground tabular-nums ring-1 ring-border">{col.length}</span>
                   </div>
                   <div className="flex flex-1 flex-col gap-2.5">
                     {col.map((item) => (
                       <BoardCard key={item.id} item={item} onOpen={() => setOpenId(item.id)} onDragStart={(e) => e.dataTransfer.setData("text/plain", item.id)} />
                     ))}
-                    {!col.length && <div className="grid flex-1 place-items-center rounded-xl border border-dashed text-xs text-muted-foreground">Drop items here</div>}
+                    {!col.length && <div className="grid flex-1 place-items-center rounded-lg border border-dashed text-xs text-muted-foreground">Drop items here</div>}
                   </div>
                 </div>
               );

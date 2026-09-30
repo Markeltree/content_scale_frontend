@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Sparkles, FileSearch, SquareKanban, ShieldCheck } from "lucide-react";
-import { Logo } from "@/components/logo";
+import { Logo, LogoMark } from "@/components/logo";
 
 const points = [
   { icon: Sparkles, title: "Generate on-brand content", text: "Blogs, campaigns, emails and ads in your brand voice." },
@@ -11,38 +11,58 @@ const points = [
 
 export function AuthShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="grid min-h-dvh lg:grid-cols-[1.05fr_1fr]">
-      <div className="relative hidden overflow-hidden bg-zinc-950 p-10 text-white lg:flex lg:flex-col">
-        <div className="absolute inset-0 bg-grid opacity-[0.07]" />
-        <div className="absolute -top-40 -left-24 size-[520px] rounded-full bg-primary/40 blur-[120px]" />
-        <div className="absolute -right-32 bottom-0 size-[420px] rounded-full bg-rose-400/20 blur-[120px]" />
-        <Link href="/" className="relative">
-          <Logo className="[&_.text-muted-foreground]:text-white/50" />
+    <div className="grid min-h-dvh bg-background lg:grid-cols-[1fr_minmax(0,560px)] xl:grid-cols-[1fr_minmax(0,620px)]">
+      <div className="flex flex-col px-6 py-8 sm:px-10">
+        <Link href="/" className="w-fit rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <Logo />
         </Link>
-        <div className="relative mt-auto max-w-lg">
-          <h2 className="text-4xl leading-tight font-bold tracking-tight">
+        <div className="flex flex-1 items-center justify-center py-12">
+          <div className="w-full max-w-[380px]">{children}</div>
+        </div>
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+          <span>© {new Date().getFullYear()} ContentScale</span>
+          <span>Secured by Supabase Auth</span>
+        </div>
+      </div>
+
+      <div className="relative m-3 hidden overflow-hidden rounded-2xl bg-zinc-950 p-10 text-white lg:flex lg:flex-col xl:p-12">
+        <div className="absolute inset-0 bg-grid opacity-[0.05]" />
+        <div className="absolute -top-32 -right-24 size-[460px] rounded-full bg-primary/35 blur-[120px]" />
+        <div className="absolute -bottom-40 -left-20 size-[380px] rounded-full bg-rose-400/10 blur-[120px]" />
+
+        <div className="relative flex items-center gap-2 text-xs font-medium text-white/60">
+          <LogoMark className="size-6 rounded-md" />
+          Generative AI workspace
+        </div>
+
+        <div className="relative mt-auto">
+          <h2 className="max-w-md text-[32px] leading-[1.15] font-semibold tracking-[-0.03em]">
             One AI workspace for every piece of content your team ships.
           </h2>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2">
+          <ul className="mt-10 space-y-5">
             {points.map((p) => (
-              <div key={p.title} className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
-                <p.icon className="size-5 text-rose-300" />
-                <div className="mt-3 text-sm font-semibold">{p.title}</div>
-                <div className="mt-1 text-xs text-white/60">{p.text}</div>
-              </div>
+              <li key={p.title} className="flex gap-4">
+                <div className="grid size-9 shrink-0 place-items-center rounded-lg border border-white/10 bg-white/[0.06]">
+                  <p.icon className="size-4 text-rose-300" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium">{p.title}</div>
+                  <div className="mt-0.5 text-[13px] text-white/55">{p.text}</div>
+                </div>
+              </li>
             ))}
-          </div>
-        </div>
-        <div className="relative mt-10 text-xs text-white/40">© {new Date().getFullYear()} ContentScale</div>
-      </div>
-      <div className="flex items-center justify-center p-6 sm:p-10">
-        <div className="w-full max-w-sm">
-          <Link href="/" className="mb-10 inline-block lg:hidden">
-            <Logo />
-          </Link>
-          {children}
+          </ul>
         </div>
       </div>
+    </div>
+  );
+}
+
+export function AuthHeading({ title, description }: { title: string; description?: React.ReactNode }) {
+  return (
+    <div>
+      <h1 className="text-2xl font-semibold tracking-[-0.025em]">{title}</h1>
+      {description && <p className="mt-1.5 text-sm text-muted-foreground">{description}</p>}
     </div>
   );
 }

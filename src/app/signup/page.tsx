@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { LoaderCircle, MailCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { AuthShell } from "@/components/auth-shell";
+import { AuthHeading, AuthShell } from "@/components/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,15 +34,15 @@ export default function SignupPage() {
   if (sent) {
     return (
       <AuthShell>
-        <div className="grid size-12 place-items-center rounded-full bg-primary/10 text-primary">
+        <div className="mb-6 grid size-11 place-items-center rounded-xl border bg-card text-primary shadow-xs">
           <MailCheck className="size-5" />
         </div>
-        <h1 className="mt-5 text-2xl font-bold tracking-tight">Check your inbox</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <h1 className="text-2xl font-semibold tracking-[-0.025em]">Check your inbox</h1>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
           We sent a confirmation link to <span className="font-medium text-foreground">{form.email}</span>. Open it to activate your
           workspace.
         </p>
-        <Button asChild variant="outline" className="mt-6 w-full">
+        <Button asChild variant="outline" size="lg" className="mt-8 w-full">
           <Link href="/login">Back to sign in</Link>
         </Button>
       </AuthShell>
@@ -51,8 +51,7 @@ export default function SignupPage() {
 
   return (
     <AuthShell>
-      <h1 className="text-2xl font-bold tracking-tight">Create your workspace</h1>
-      <p className="mt-1 text-sm text-muted-foreground">The first account becomes the workspace admin.</p>
+      <AuthHeading title="Create your workspace" description="The first account becomes the workspace admin." />
       <form onSubmit={submit} className="mt-8 space-y-4">
         <div className="space-y-1.5">
           <Label htmlFor="name">Full name</Label>
@@ -66,11 +65,11 @@ export default function SignupPage() {
           <Label htmlFor="password">Password</Label>
           <Input id="password" type="password" minLength={8} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="At least 8 characters" />
         </div>
-        <Button type="submit" className="w-full" disabled={busy}>
+        <Button type="submit" size="lg" className="mt-2 w-full" disabled={busy}>
           {busy && <LoaderCircle className="animate-spin" />} Create account
         </Button>
       </form>
-      <p className="mt-6 text-center text-sm text-muted-foreground">
+      <p className="mt-8 text-center text-sm text-muted-foreground">
         Already have an account?{" "}
         <Link href="/login" className="font-medium text-primary hover:underline">
           Sign in

@@ -157,7 +157,7 @@ export default function SettingsPage() {
                 <button
                   key={o.v}
                   onClick={() => setTheme(o.v)}
-                  className={cn("flex flex-col items-center gap-2 rounded-xl border p-4 text-sm cursor-pointer", theme === o.v ? "border-primary bg-primary/5 text-primary" : "text-muted-foreground hover:text-foreground")}
+                  className={cn("flex flex-col items-center gap-2 rounded-xl border p-4 text-sm cursor-pointer", theme === o.v ? "border-primary/60 bg-primary/5 ring-1 ring-primary/15 text-primary" : "text-muted-foreground hover:text-foreground")}
                 >
                   <o.icon className="size-5" />
                   {o.label}

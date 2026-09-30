@@ -281,7 +281,7 @@ export default function DocumentsPage() {
               onClick={() => fileRef.current?.click()}
               className={cn(
                 "flex cursor-pointer flex-col items-center rounded-xl border-2 border-dashed px-4 py-7 text-center transition-colors",
-                drag ? "border-primary bg-primary/5" : "hover:border-primary/40 hover:bg-muted/40"
+                drag ? "border-primary/60 bg-primary/5 ring-1 ring-primary/15" : "hover:border-primary/40 hover:bg-muted/40"
               )}
             >
               {uploading ? <LoaderCircle className="size-6 animate-spin text-primary" /> : <Upload className="size-6 text-primary" />}

@@ -35,12 +35,12 @@ export const CONTENT_TYPE_LABELS: Record<string, string> = {
 };
 
 export const STATUS_META: Record<string, { label: string; className: string; dot: string }> = {
-  draft: { label: "Draft", className: "bg-muted text-muted-foreground", dot: "bg-zinc-400" },
-  review: { label: "In Review", className: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300", dot: "bg-amber-500" },
-  revision: { label: "Revision", className: "bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300", dot: "bg-orange-500" },
-  approved: { label: "Approved", className: "bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300", dot: "bg-emerald-500" },
-  scheduled: { label: "Scheduled", className: "bg-sky-100 text-sky-800 dark:bg-sky-500/15 dark:text-sky-300", dot: "bg-sky-500" },
-  published: { label: "Published", className: "bg-primary/10 text-primary", dot: "bg-primary" },
+  draft: { label: "Draft", className: "bg-muted text-muted-foreground ring-1 ring-inset ring-border", dot: "bg-zinc-400" },
+  review: { label: "In Review", className: "bg-amber-50 text-amber-800 ring-1 ring-inset ring-amber-600/15 dark:bg-amber-500/10 dark:text-amber-300 dark:ring-amber-400/20", dot: "bg-amber-500" },
+  revision: { label: "Revision", className: "bg-orange-50 text-orange-800 ring-1 ring-inset ring-orange-600/15 dark:bg-orange-500/10 dark:text-orange-300 dark:ring-orange-400/20", dot: "bg-orange-500" },
+  approved: { label: "Approved", className: "bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/15 dark:bg-emerald-500/10 dark:text-emerald-300 dark:ring-emerald-400/20", dot: "bg-emerald-500" },
+  scheduled: { label: "Scheduled", className: "bg-sky-50 text-sky-700 ring-1 ring-inset ring-sky-600/15 dark:bg-sky-500/10 dark:text-sky-300 dark:ring-sky-400/20", dot: "bg-sky-500" },
+  published: { label: "Published", className: "bg-primary/8 text-primary ring-1 ring-inset ring-primary/20 dark:bg-primary/15", dot: "bg-primary" },
 };
 
 export const STATUSES = ["draft", "review", "revision", "approved", "scheduled", "published"] as const;

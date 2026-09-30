@@ -20,7 +20,7 @@ function Segmented<T extends string | number>({ value, options, onChange }: { va
         <button
           key={String(o.value)}
           onClick={() => onChange(o.value)}
-          className={`rounded-md px-3 py-1 text-sm transition-colors cursor-pointer ${value === o.value ? "bg-background font-medium shadow-sm" : "text-muted-foreground"}`}
+          className={`rounded-md px-3 py-1 text-sm transition-colors cursor-pointer ${value === o.value ? "bg-card font-medium text-foreground shadow-xs ring-1 ring-border" : "text-muted-foreground"}`}
         >
           {o.label}
         </button>

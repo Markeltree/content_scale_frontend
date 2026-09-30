@@ -72,7 +72,7 @@ function Chat({ hasSources }: { hasSources: boolean }) {
       <div className="h-[520px] space-y-6 overflow-y-auto px-5 py-6">
         {!messages.length && (
           <div className="flex h-full flex-col items-center justify-center text-center">
-            <div className="grid size-12 place-items-center rounded-full bg-primary/10 text-primary">
+            <div className="grid size-12 place-items-center rounded-xl bg-primary/10 text-primary">
               <BookOpen className="size-5" />
             </div>
             <h3 className="mt-4 font-semibold">Ask your company knowledge</h3>

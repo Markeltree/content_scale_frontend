@@ -110,7 +110,7 @@ export default function AssistantPage() {
             onClick={() => setAction(a.id)}
             className={cn(
               "flex flex-col items-center gap-1.5 rounded-xl border bg-card px-2 py-3 text-xs font-medium transition-all cursor-pointer",
-              action === a.id ? "border-primary bg-primary/5 text-primary shadow-sm" : "text-muted-foreground hover:border-foreground/20 hover:text-foreground"
+              action === a.id ? "border-primary/60 bg-primary/5 ring-1 ring-primary/15 text-primary shadow-sm" : "text-muted-foreground hover:border-foreground/20 hover:text-foreground"
             )}
           >
             <a.icon className="size-4" />
