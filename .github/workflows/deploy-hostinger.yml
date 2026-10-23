@@ -39,4 +39,4 @@ jobs:
           protocol: ftp
           port: 21
           local-dir: ./out/
-          server-dir: ${{ secrets.FTP_SERVER_DIR || './public_html/' }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
