@@ -15,6 +15,7 @@ import {
   Type,
   Eye,
   LayoutDashboard,
+  FileText,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useApi } from "@/lib/use-api";
@@ -52,31 +53,38 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-[13px] font-medium text-muted-foreground">{today}</p>
-          <h1 className="mt-1 text-2xl font-semibold tracking-[-0.025em] sm:text-[28px]">
-            {greeting()}, {user?.full_name?.split(" ")[0] || "there"}
-          </h1>
-          <p className="mt-1.5 text-sm text-muted-foreground">Here&apos;s what your team produced with ContentScale in the last 30 days.</p>
-        </div>
-        <div className="flex gap-2">
-          <Button asChild variant="outline">
-            <Link href="/workflow">
-              <SquareKanban /> Open board
-            </Link>
-          </Button>
-          <Button asChild>
-            <Link href="/generate">
-              <Sparkles /> New content
-            </Link>
-          </Button>
+      <div className="relative overflow-hidden rounded-2xl border bg-card px-5 py-6 shadow-xs sm:px-7">
+        <div className="absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_at_top_right,black,transparent_65%)] opacity-50" />
+        <div className="absolute -top-24 -right-16 size-64 rounded-full bg-primary/10 blur-3xl" />
+        <div className="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="inline-flex items-center gap-2 text-[13px] font-medium text-muted-foreground">
+              {today}
+              <span className="rounded-full border bg-background px-2 py-0.5 text-[11px]">Last 30 days</span>
+            </p>
+            <h1 className="mt-1 text-2xl font-semibold tracking-[-0.025em] sm:text-[28px]">
+              {greeting()}, {user?.full_name?.split(" ")[0] || "there"}
+            </h1>
+            <p className="mt-1.5 text-sm text-muted-foreground">Here&apos;s what your team produced with ContentScale in the last 30 days.</p>
+          </div>
+          <div className="flex gap-2">
+            <Button asChild variant="outline" className="bg-card">
+              <Link href="/workflow">
+                <SquareKanban /> Open board
+              </Link>
+            </Button>
+            <Button asChild className="shadow-sm shadow-primary/20">
+              <Link href="/generate">
+                <Sparkles /> New content
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {loading || !t ? (
-          Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-[122px] rounded-xl" />)
+          Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-[156px] rounded-xl" />)
         ) : (
           <>
             <StatCard label="AI generations" value={formatNumber(t.generations)} change={t.generationsChange} icon={Zap} hint="vs previous 30 days" />
@@ -89,7 +97,7 @@ export default function DashboardPage() {
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
-          <CardHeader>
+          <CardHeader className="border-b">
             <CardTitle>AI generations per day</CardTitle>
             <CardDescription>Every request to Claude across the workspace, last 30 days</CardDescription>
             <CardAction>
@@ -103,7 +111,7 @@ export default function DashboardPage() {
           <CardContent>{data ? <AreaTrend data={data.daily} dataKey="generations" name="Generations" /> : <Skeleton className="h-60" />}</CardContent>
         </Card>
         <Card>
-          <CardHeader>
+          <CardHeader className="border-b">
             <CardTitle>Usage by capability</CardTitle>
             <CardDescription>Requests in the last 30 days</CardDescription>
           </CardHeader>
@@ -113,17 +121,20 @@ export default function DashboardPage() {
 
       <div>
         <div className="mb-3 flex items-baseline justify-between">
-          <h2 className="text-[15px] font-semibold">Quick actions</h2>
-          <span className="text-xs text-muted-foreground">Jump straight into a workflow</span>
+          <div>
+            <p className="eyebrow">Shortcuts</p>
+            <h2 className="mt-0.5 text-[15px] font-semibold">Quick actions</h2>
+          </div>
+          <span className="hidden text-xs text-muted-foreground sm:inline">Jump straight into a workflow</span>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {QUICK.map((q) => (
             <Link
               key={q.href}
               href={q.href}
-              className="group flex items-center gap-3.5 rounded-xl border bg-card p-4 shadow-xs transition-all outline-none hover:border-foreground/15 hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring"
+              className="group flex items-center gap-3.5 rounded-xl border bg-card p-4 shadow-xs transition-all outline-none hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <div className="grid size-9 shrink-0 place-items-center rounded-lg border bg-muted/50 text-foreground/80 transition-colors group-hover:border-primary/25 group-hover:bg-primary/8 group-hover:text-primary">
+              <div className="grid size-10 shrink-0 place-items-center rounded-lg border bg-muted/50 text-foreground/80 transition-colors group-hover:border-primary/25 group-hover:bg-primary/8 group-hover:text-primary">
                 <q.icon className="size-[18px]" />
               </div>
               <div className="min-w-0 flex-1">
@@ -138,7 +149,7 @@ export default function DashboardPage() {
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
-          <CardHeader>
+          <CardHeader className="border-b">
             <CardTitle>Recent content</CardTitle>
             <CardDescription>Latest work across the workspace</CardDescription>
             <CardAction>
@@ -167,7 +178,10 @@ export default function DashboardPage() {
               <ul className="divide-y divide-border/60">
                 {recent.items.slice(0, 6).map((c) => (
                   <li key={c.id}>
-                    <Link href={`/library?open=${c.id}`} className="-mx-2 flex items-center gap-3 rounded-lg px-2 py-2.5 transition-colors hover:bg-muted/60">
+                    <Link href={`/library?open=${c.id}`} className="group -mx-2 flex items-center gap-3 rounded-lg px-2 py-3 transition-colors hover:bg-muted/60">
+                      <div className="grid size-9 shrink-0 place-items-center rounded-lg border bg-muted/40 text-muted-foreground transition-colors group-hover:border-primary/25 group-hover:text-primary">
+                        <FileText className="size-4" />
+                      </div>
                       <div className="min-w-0 flex-1">
                         <div className="truncate text-[13px] font-medium">{c.title}</div>
                         <div className="mt-0.5 text-xs text-muted-foreground">
@@ -185,21 +199,21 @@ export default function DashboardPage() {
 
         <div className="space-y-4">
           <Card>
-            <CardHeader>
+            <CardHeader className="border-b">
               <CardTitle>Content pipeline</CardTitle>
               <CardDescription>{statusTotal} items across all stages</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted">
+            <CardContent className="space-y-4">
+              <div className="flex h-2.5 gap-0.5 overflow-hidden rounded-full bg-muted">
                 {data?.byStatus
                   .filter((s) => s.value)
                   .map((s) => (
                     <div key={s.name} className={STATUS_META[s.name].dot} style={{ width: `${(s.value / Math.max(1, statusTotal)) * 100}%` }} title={`${STATUS_META[s.name].label}: ${s.value}`} />
                   ))}
               </div>
-              <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-[13px]">
+              <ul className="grid grid-cols-2 gap-2 text-[13px]">
                 {data?.byStatus.map((s) => (
-                  <li key={s.name} className="flex items-center gap-2">
+                  <li key={s.name} className="flex items-center gap-2 rounded-md bg-muted/40 px-2 py-1.5">
                     <span className={`size-2 rounded-full ${STATUS_META[s.name].dot}`} />
                     <span className="text-muted-foreground">{STATUS_META[s.name].label}</span>
                     <span className="ml-auto font-medium tabular-nums">{s.value}</span>
@@ -209,17 +223,19 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
           <Card>
-            <CardHeader>
+            <CardHeader className="border-b">
               <CardTitle>Team activity</CardTitle>
+              <CardDescription>Latest actions by your team</CardDescription>
             </CardHeader>
             <CardContent>
               {!data?.activity.length ? (
                 <p className="text-sm text-muted-foreground">No activity yet.</p>
               ) : (
-                <ul className="space-y-3.5">
+                <ul className="relative space-y-4">
+                  <span aria-hidden className="absolute top-3 bottom-3 left-3.5 w-px bg-border" />
                   {data.activity.slice(0, 6).map((a) => (
-                    <li key={a.id} className="flex gap-3 text-[13px]">
-                      <UserAvatar name={a.actor?.full_name} src={a.actor?.avatar_url} />
+                    <li key={a.id} className="relative flex gap-3 text-[13px]">
+                      <UserAvatar name={a.actor?.full_name} src={a.actor?.avatar_url} className="ring-4 ring-card" />
                       <div className="min-w-0">
                         <p className="leading-snug">
                           <span className="font-medium">{a.actor?.full_name ?? "Someone"}</span>{" "}

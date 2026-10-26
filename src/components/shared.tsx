@@ -58,13 +58,17 @@ export function StatCard({
 }) {
   const up = (change ?? 0) >= 0;
   return (
-    <Card className={cn("gap-0 p-5", className)}>
+    <Card className={cn("gap-0 p-5 transition-shadow hover:shadow-md", className)}>
       <div className="flex items-center justify-between gap-2">
         <span className="text-[13px] font-medium text-muted-foreground">{label}</span>
-        {Icon && <Icon className="size-4 text-muted-foreground/70" />}
+        {Icon && (
+          <span className="grid size-8 place-items-center rounded-lg border bg-muted/50 text-muted-foreground">
+            <Icon className="size-4" />
+          </span>
+        )}
       </div>
-      <div className="mt-3 text-[28px] leading-none font-semibold tracking-[-0.025em] tabular-nums">{value}</div>
-      <div className="mt-3 flex min-h-5 items-center gap-2 text-xs text-muted-foreground">
+      <div className="mt-2 text-[28px] leading-none font-semibold tracking-[-0.025em] tabular-nums">{value}</div>
+      <div className="mt-4 flex min-h-5 items-center gap-2 border-t pt-3 text-xs text-muted-foreground">
         {change !== undefined && (
           <span
             className={cn(
